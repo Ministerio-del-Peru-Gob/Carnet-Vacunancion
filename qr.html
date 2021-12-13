@@ -1,0 +1,24 @@
+<div class="popup-general width-4">                
+    <div class="popup-title"><span class="popup-txttitle">Detalle de vacuna</span> <span class="popup-close">X</span></div>
+    <div class="popup-body">
+<div class="aList" style="border: #fdb441 solid 1px;">
+<div style="display: flex">
+    <img src="https://gis.minsa.gob.pe/CarneVacunacion/static/img/icon/frasco.png" width="10" height="30" alt="Icono frasco vacuna">
+    <div style="align-self:flex-start; padding-left:0.5rem; padding-top:0.25rem">
+        <b style="color:rgb(0, 160, 153); font-size:1.1rem">Vacuna contra Covid</b>
+    </div>
+</div>
+</div>
+<div class="text-center" style="padding-top:0.3rem">
+<button type="button" id="jaBntCertificado" class="btn btn1" style="font-size: 0.75rem;">
+    <img src="https://gis.minsa.gob.pe/CarneVacunacion/static/img/icon/eye-regular.png" alt="Icono ver certificado" style="vertical-align: middle">
+    VER CERTIFICADO
+</button>
+</div>
+<!-- border: #fdb441 dashed 1px; border-radius: 0.3rem; margin-top: 1rem; -->
+<div class="text-center" style="padding: 0.8rem 0.2rem;">
+<div class="text-center" style="padding:0 0 0.2rem; font-size: 1rem"><b>Escanear para ver el certificado</b></div>
+<div id="jaPnlQrCertificado" style="overflow: auto"><canvas id="ppQrVacunaImg" width="250" height="250"></canvas></div>
+</div>
+</div>
+</div>
