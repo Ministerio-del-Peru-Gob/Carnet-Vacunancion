@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MINSA - Carnet de Vacunacion</title>
+</head>
+<body>
+    <div class="app" id="japp">
+<style>
+    /*GENERAL*/
+    body {
+        font-family: sans-serif;
+        font-size: 1rem;
+        line-height: 1.2em;
+        margin: 0;
+        background: #e4e4e4;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    #japp {
+        display: inline-block;
+    }
+
+    .hide {
+        display: none;
+    }
+
+    .show {
+        display: block;
+    }
+
+    /*DISEÑO PARA CELULARES*/
+    .m-page-container {
+        padding: 20px;
+        max-width: 900px;
+        margin: 0 auto;
+        background: #fff;
+    }
+
+    .titulo {
+        color: #75a5d0;
+        text-align: center;
+        font-weight: bold;
+        padding: 0.5rem 0.2rem;
+    }
+
+    .txt-titulo {
+        font-weight: bold;
+    }
+
+    .txt-resultado {
+        font-size: 0.8rem;
+    }
+
+    .logo {
+        text-align: center;
+    }
+
+    .logo img {
+        width: 100%;
+        max-width: 17rem;
+    }
+
+    .linea {
+        display: block;
+        border: none;
+        margin-top: 8px;
+        margin-bottom: 8px;
+        margin-left: auto;
+        margin-right: auto;
+        border-top: #e2e2e2 dashed 1px;
+    }
+
+    .caja-vacunas {
+        border: #c8d5d5 solid 5px;
+        padding: 0.5rem;
+        margin-top: 0.5rem;
+    }
+
+    /*DISEÑO PARA COMPUTADORAS*/
+    .d-page-container {
+        padding: 30px;
+        max-width: 900px;
+        margin: 2rem auto;
+        background: #fff;
+        border: #ccc solid 1px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, .25);
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    .table-certificado {
+        border-spacing: 0;
+        width: 100%;
+        min-width: 600px;
+    }
+
+    .table-certificado thead th,
+    .table-certificado tbody td {
+        padding: 0.5rem;
+        word-wrap: break-word;
+    }
+
+    .table-certificado thead th {
+        border-bottom: 1px solid #75a5d0;
+    }
+
+    .table-certificado tbody td {
+        border-bottom: 1px solid #75a5d0;
+        border-right: 1px solid #75a5d0;
+        height: 65px;
+    }
+
+    .table-certificado tbody td:last-child {
+        border-right: none;
+    }
+
+    .texto,
+    .data {
+        font-size: 0.8rem;
+    }
+
+    .subtitulo {
+        font-weight: bold;
+    }
+
+    .table-data {
+        border: solid 1px #E5E7E9;
+        border-spacing: 0;
+        font-size: 0.75rem;
+        text-align: center;
+        width: 100%;
+    }
+
+    .table-data thead th {
+        border: 1px solid #E5E7E9;
+        height: 50px;
+    }
+
+    .table-data tbody td {
+        border: 1px solid #E5E7E9;
+        height: 50px;
+    }
+
+    /*PRINT*/
+    @media print {
+        .d-page-container {
+            border: none;
+            box-shadow: none;
+        }
+
+        #jPnlCelular {
+            display: none;
+        }
+
+        #jPnlEscritorio {
+            display: block;
+        }
+
+        .jHidePrint {
+            display: none;
+        }
+    }
+</style>
+<section id="jPnlCelular" class="hide">
+    <div class="m-page-container">
+        <div class="logo"> <img
+                src="imagenes/logo_minsa.jpg"
+                alt="Ministerio de Salud - MINSA | Gobierno del Perú"> </div>
+        <div class="titulo"> CERTIFICADO DE VACUNACIÓN / VACCINATION CERTIFICATE </div>
+        <div style="text-align: center; padding: 0.5rem 0;"> <canvas id="jQRCelular"
+                style="width: 200px; margin: 0 auto;" height="250" width="250"></canvas> </div>
+        <hr class="linea">
+        <div class="txt-titulo">Nombre / Name</div>
+        <div class="txt-resultado">SANCHEZ GALDO WALTER EDUARDO </div>
+        <hr class="linea">
+        <div class="txt-titulo">Documento de Identidad / Identification document</div>
+        <div class="txt-resultado">DNI: 40912301</div>
+        <hr class="linea">
+        <div class="txt-titulo">Fecha de Nacimiento / Date of birth</div>
+        <div class="txt-resultado">06/06/1981</div>
+        <hr class="linea">
+        <div class="txt-titulo">Sexo / Sex</div>
+        <div class="txt-resultado">M</div>
+        <hr class="linea">
+        <div class="txt-titulo">Nacionalidad / Nationality</div>
+        <div class="txt-resultado">PERU</div>
+        <hr class="linea">
+        <div class="txt-titulo">Vacuna / Vaccine</div>
+        <div class="txt-resultado">Vacuna contra Covid</div>
+        <hr class="linea">
+        <div class="txt-titulo">Vacunado / Vaccinated</div>
+        <div class="txt-resultado"></div>
+        <div>
+            <div class="caja-vacunas">
+                <div class="txt-titulo" style="color: #848f8f;">Dosis / Dose</div>
+                <div class="txt-resultado">1ª dosis</div>
+                <hr class="linea">
+                <div class="txt-titulo">Fecha de Vacunación / Vaccination Date</div>
+                <div class="txt-resultado">03/10/2021</div>
+                <hr class="linea">
+                <div class="txt-titulo">Fabricante y Lote de Vacuna / Product Name and Manufacturer Lot Number</div>
+                <div class="txt-resultado">PFIZER (EX6564)</div>
+                <hr class="linea">
+                <div class="txt-titulo">Lugar de Vacunación / Vaccination Place</div>
+                <div class="txt-resultado">LIMA SUR</div>
+            </div>
+            <div class="caja-vacunas">
+                <div class="txt-titulo" style="color: #848f8f;">Dosis / Dose</div>
+                <div class="txt-resultado">2ª dosis</div>
+                <hr class="linea">
+                <div class="txt-titulo">Fecha de Vacunación / Vaccination Date</div>
+                <div class="txt-resultado">24/10/2021</div>
+                <hr class="linea">
+                <div class="txt-titulo">Fabricante y Lote de Vacuna / Product Name and Manufacturer Lot Number</div>
+                <div class="txt-resultado">PFIZER (EW0206)</div>
+                <hr class="linea">
+                <div class="txt-titulo">Lugar de Vacunación / Vaccination Place</div>
+                <div class="txt-resultado">LIMA SUR</div>
+            </div>
+        </div>
+        <hr class="linea">
+        <div class="txt-titulo">Certificado emitido por / Certificate issued by</div>
+        <div class="txt-resultado">Ministerio de Salud del Perú</div>
+        <div style="border-top:#d7dadd dashed 1px; margin-top: 1rem; padding-top: 0.5rem; color: rgb(145, 141, 141);">
+            <!--<div>Emisión / Issue</div><div>10/12/2021 14:36:27 PM</div><div style="padding: 0.5rem 0 0;">Expiración / Due</div><div>10/12/2021 14:36:27 PM</div>-->
+            <div class="txt-titulo">Fecha de Emisión / Date of Issue</div>
+            <div class="txt-resultado">10/12/2021 14:36</div>
+        </div>
+    </div>
+    <div class="text-center" style="padding:1rem 0.2rem 0.3rem"> <button type="button"
+            class="btn btn2 jBtnPrint">IMPRIMIR</button> </div>
+    <div class="text-center" style="color:#5c5c5c; padding:0 0.2rem 0.7rem; font-size:0.8rem">
+        <hr class="aLine1" style="width:100%"> Copyright © 2021. Desarrollado por la Oficina General de Tecnologías de
+        la Información del Ministerio de Salud | Todos los derechos reservados.
+    </div>
+</section>
+<section id="jPnlEscritorio" class="">
+    <div class="d-page-container">
+        <div class="table-container">
+            <table class="table-certificado">
+                <thead>
+                    <tr>
+                        <th colspan="3">
+                            <div class="logo"> <img class="logo-minsa"
+                                    src="imagenes/logo_minsa.jpg"
+                                    alt="Ministerio de Salud - MINSA | Gobierno del Perú"> </div>
+                            <div class="titulo" style="padding: 0.8rem 0;"> CERTIFICADO DE VACUNACIÓN / VACCINATION
+                                CERTIFICATE </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="vertical-align: top; width: 35%;"> <span class="texto subtitulo"> Nombre / Name
+                            </span> <br><label class="data">SANCHEZ GALDO WALTER EDUARDO </label> </td>
+                        <td style="vertical-align: top; width: 35%"> <span class="texto subtitulo"> Fecha de Nacimiento
+                                / Date of birth </span><br><label id="fecha-nacimiento" class="data">06/06/1981</label>
+                        </td>
+                        <td style="vertical-align: top; width: 30%" rowspan="3"> <img src="imagenes/CarnetVac.jpg" height="250" alt=""><canvas img="images/CarnetVac.jpg" id="jQREscritorio" height="250"
+                                width="250"></canvas> </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: top;"> <span class="texto subtitulo">Documento de Identidad /
+                                Identification document</span><br><label id="tipo-numero-documento" class="data">DNI:
+                                40912301</label> </td>
+                        <td style="vertical-align: top; border-right: 1px solid #75a5d0;"> <span
+                                class="texto subtitulo">Nacionalidad / Nationality</span><br><label id="nacionalidad"
+                                class="data">PERU</label> </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: top;"> <span class="texto subtitulo">Sexo / Sex </span><br><label
+                                id="sexo" class="data">M</label> </td>
+                        <td style="vertical-align: top; border-right: 1px solid #75a5d0;"> <span
+                                class="texto subtitulo">Vacuna / Vaccine</span><br><label id="nacionalidad"
+                                class="data">Vacuna contra Covid</label> </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" style="width: 100%; border-right: 0;vertical-align: top; padding-top: 1.5rem;">
+                            <span class="texto">Vacunado / Vaccinated</span> <span class="texto virus"> </span>
+                            <table class="table-data">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 15%;">Fecha de Vacunación / Vaccination Date </th>
+                                        <th style="width: 10%;">Dosis / Dose</th>
+                                        <th style="width: 40%;">Fabricante y Lote de Vacuna / Product Name and
+                                            Manufacturer Lot Number</th>
+                                        <th style="width: 35%;">Lugar de Vacunación / Vaccination Place</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>03/10/2021</td>
+                                        <td>1ª dosis</td>
+                                        <td>PFIZER (EX6564)</td>
+                                        <td>LIMA SUR</td>
+                                    </tr>
+                                    <tr>
+                                        <td>24/10/2021</td>
+                                        <td>2ª dosis</td>
+                                        <td>PFIZER (EW0206)</td>
+                                        <td>LIMA SUR</td>
+                                    </tr>
+                                </tbody>
+                            </table><br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"
+                            style="width: 100%; border-bottom: 0; vertical-align: top; color: rgb(99, 99, 99);">
+                            <div style="float: left;"> <span class="texto subtitulo">Certificado emitido por /
+                                    Certificate issued by:</span><br><label id="fecha-emision" class="data">Ministerio
+                                    de Salud del Perú</label> </div>
+                            <div style="float: right; text-align: right;">
+                                <div class="texto subtitulo">Fecha de Emisión / Date of Issue</div>
+                                <div class="data">11/12/2021 </div>
+                                <!-- <span class="texto subtitulo">Emisión / Issue :</span> <label id="fecha-emision" class="data">10/12/2021 14:36:27 PM</label> <br><span class="texto subtitulo">Expiración / Due :</span> <label id="fecha-emision" class="data">10/12/2021 14:36:27 PM</label> -->
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <hr class="aLine1">
+        <div class="text-center" style="color:#5c5c5c; padding:0 0.2rem; font-size:0.8rem"> Copyright © 2021.
+            Desarrollado por la Oficina General de Tecnologías de la Información del Ministerio de Salud | Todos los
+            derechos reservados. </div>
+        <div class="row jHidePrint">
+            <hr class="aLine1">
+            <div class="col-4"></div>
+            <div class="col-4"><button type="button" class="btn btn2 jBtnPrint">IMPRIMIR</button></div>
+            <div class="col-4"></div>
+        </div>
+    </div>
+</section>
+        </div>
+    <script type="module" src="1639142701663app/index.js"></script>
+    <script nomodule="">document.location.href = 'error-compatibilidad.html';</script>
+
+</body>
+</html>
